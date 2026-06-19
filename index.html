@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1B5E20">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Ijtimak Tarbawi">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="description" content="Sistem Kehadiran Ijtimak Tarbawi Dewan Ulamak PAS Kawasan Rompin">
+
+  <title>Ijtimak Tarbawi Dewan Ulamak</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="./manifest.json">
+
+  <!-- Apple Touch Icon (untuk iPhone) -->
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="./icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="./icon-512.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(160deg, #1B5E20 0%, #43A047 100%);
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    .splash {
+      text-align: center;
+      color: white;
+      animation: fadeIn .6s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      font-size: 80px;
+      margin-bottom: 16px;
+      display: block;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.06); }
+    }
+
+    .app-name {
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+
+    .app-sub {
+      font-size: 1rem;
+      opacity: 0.85;
+      margin-bottom: 40px;
+    }
+
+    /* Loading bar */
+    .loader-wrap {
+      width: 200px;
+      height: 6px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 3px;
+      overflow: hidden;
+      margin: 0 auto 20px;
+    }
+
+    .loader-bar {
+      height: 100%;
+      background: #FFD600;
+      border-radius: 3px;
+      animation: load 1.8s ease-in-out forwards;
+    }
+
+    @keyframes load {
+      from { width: 0; }
+      to   { width: 100%; }
+    }
+
+    .status-text {
+      font-size: 0.85rem;
+      opacity: 0.75;
+      margin-bottom: 32px;
+    }
+
+    /* Butang manual jika redirect lambat */
+    .btn-manual {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border: 2px solid rgba(255,255,255,0.5);
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all .2s;
+      backdrop-filter: blur(4px);
+    }
+
+    .btn-manual:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-2px);
+    }
+
+    /* Install banner (Android) */
+    .install-banner {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: white;
+      color: #1B5E20;
+      padding: 16px 20px;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+      z-index: 999;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .install-banner.show { display: flex; }
+
+    .install-icon {
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+
+    .install-text { flex: 1; }
+    .install-title { font-weight: 700; font-size: 0.95rem; }
+    .install-sub { font-size: 0.8rem; color: #666; margin-top: 2px; }
+
+    .btn-install {
+      background: #1B5E20;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .btn-dismiss {
+      background: transparent;
+      border: none;
+      color: #999;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+
+    /* Panduan iOS */
+    .ios-guide {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: white;
+      padding: 20px;
+      border-radius: 16px 16px 0 0;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+      display: none;
+      z-index: 999;
+    }
+
+    .ios-guide.show { display: block; }
+
+    .ios-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1B5E20;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .ios-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 0.88rem;
+      color: #333;
+    }
+
+    .ios-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #1B5E20;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .btn-close-ios {
+      width: 100%;
+      margin-top: 14px;
+      padding: 12px;
+      border: 2px solid #1B5E20;
+      border-radius: 8px;
+      background: transparent;
+      color: #1B5E20;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .version { 
+      position: fixed; 
+      bottom: 8px; 
+      right: 12px; 
+      font-size: 0.7rem; 
+      color: rgba(255,255,255,0.4); 
+    }
+  </style>
+</head>
+<body>
+
+  <div class="splash">
+    <span class="logo">🕌</span>
+    <div class="app-name">Ijtimak Tarbawi<br>Dewan Ulamak</div>
+    <div class="app-sub">PAS Kawasan Rompin</div>
+    <div class="loader-wrap">
+      <div class="loader-bar"></div>
+    </div>
+    <div class="status-text" id="statusText">Memuatkan sistem...</div>
+    <a class="btn-manual" id="btnManual"
+       href="https://script.google.com/macros/s/AKfycbwVACA6kz51nh5oqmdvtEEvy3Ct9Ms1a5q4-vCCXLl8nBeruFRcFEmSay_UTLpaehxb/exec"
+       style="display:none;">
+      🟢 Buka Sistem Kehadiran
+    </a>
+  </div>
+
+  <!-- Banner install Android -->
+  <div class="install-banner" id="installBanner">
+    <div class="install-icon">🕌</div>
+    <div class="install-text">
+      <div class="install-title">Simpan sebagai App</div>
+      <div class="install-sub">Tambah ikon ke skrin utama telefon anda</div>
+    </div>
+    <button class="btn-install" id="btnInstall">Pasang</button>
+    <button class="btn-dismiss" onclick="dismissBanner()">✕</button>
+  </div>
+
+  <!-- Panduan iOS -->
+  <div class="ios-guide" id="iosGuide">
+    <div class="ios-title">📱 Simpan ke Homescreen iPhone</div>
+    <div class="ios-step">
+      <div class="ios-num">1</div>
+      <div>Klik ikon <strong>Share</strong> (kotak ↑) di bar bawah Safari</div>
+    </div>
+    <div class="ios-step">
+      <div class="ios-num">2</div>
+      <div>Skrol dan pilih <strong>"Add to Home Screen"</strong></div>
+    </div>
+    <div class="ios-step">
+      <div class="ios-num">3</div>
+      <div>Nama sudah ditetapkan → klik <strong>"Add"</strong></div>
+    </div>
+    <div class="ios-step">
+      <div class="ios-num">4</div>
+      <div>✅ Ikon 🕌 akan muncul di homescreen anda!</div>
+    </div>
+    <button class="btn-close-ios" onclick="closeIOS()">Faham, Tutup</button>
+  </div>
+
+  <div class="version">v1.0</div>
+
+<script>
+  const APP_URL = 'https://script.google.com/macros/s/AKfycbwVACA6kz51nh5oqmdvtEEvy3Ct9Ms1a5q4-vCCXLl8nBeruFRcFEmSay_UTLpaehxb/exec';
+
+  // === DAFTAR SERVICE WORKER ===
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js')
+      .then(() => console.log('SW registered'))
+      .catch(e => console.log('SW error:', e));
+  }
+
+  // === AUTO REDIRECT selepas 2 saat ===
+  let redirected = false;
+
+  setTimeout(() => {
+    document.getElementById('statusText').textContent = 'Membuka sistem...';
+  }, 800);
+
+  setTimeout(() => {
+    redirected = true;
+    window.location.href = APP_URL;
+  }, 2000);
+
+  // Tunjuk butang manual jika redirect gagal (3 saat)
+  setTimeout(() => {
+    if (!redirected) return;
+    document.getElementById('btnManual').style.display = 'inline-block';
+    document.getElementById('statusText').textContent = 'Klik butang di bawah jika tidak redirect';
+  }, 3500);
+
+  // === DETECT PLATFORM ===
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const isAndroid = /Android/.test(navigator.userAgent);
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches 
+                    || window.navigator.standalone;
+
+  // === ANDROID: Install Prompt ===
+  let deferredPrompt;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    // Tunjuk banner selepas 3 saat
+    setTimeout(() => {
+      if (!isStandalone) {
+        document.getElementById('installBanner').classList.add('show');
+      }
+    }, 3000);
+  });
+
+  document.getElementById('btnInstall').addEventListener('click', async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      dismissBanner();
+    }
+  });
+
+  function dismissBanner() {
+    document.getElementById('installBanner').classList.remove('show');
+  }
+
+  // === iOS: Tunjuk panduan ===
+  if (isIOS && !isStandalone) {
+    setTimeout(() => {
+      document.getElementById('iosGuide').classList.add('show');
+    }, 3500);
+  }
+
+  function closeIOS() {
+    document.getElementById('iosGuide').classList.remove('show');
+  }
+
+  // === Jika sudah dalam standalone mode (dah install) ===
+  // Redirect terus tanpa splash
+  if (isStandalone) {
+    window.location.href = APP_URL;
+  }
+</script>
+</body>
+</html>
