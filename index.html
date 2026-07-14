@@ -9,234 +9,102 @@
   <meta name="apple-mobile-web-app-title" content="Ijtimak Tarbawi">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="description" content="Sistem Kehadiran Ijtimak Tarbawi Dewan Ulamak PAS Kawasan Rompin">
-
   <title>Ijtimak Tarbawi Dewan Ulamak</title>
-
-  <!-- PWA Manifest -->
   <link rel="manifest" href="./manifest.json">
-
-  <!-- Apple Touch Icon (untuk iPhone) -->
-  <link rel="apple-touch-icon" href="data:image/png;base64,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">
-  <link rel="apple-touch-icon" sizes="192x192" href="data:image/png;base64,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">
-  <link rel="apple-touch-icon" sizes="512x512" href="data:image/png;base64,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">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="192x192" href="data:image/png;base64,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">
-
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
       background: linear-gradient(160deg, #1B5E20 0%, #43A047 100%);
-      min-height: 100vh;
-      min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      min-height: 100vh; min-height: 100dvh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
       padding: 24px 16px;
     }
-
-    .splash {
-      text-align: center;
-      color: white;
-      animation: fadeIn .6s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .logo {
-      font-size: 80px;
-      margin-bottom: 16px;
-      display: block;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50%       { transform: scale(1.06); }
-    }
-
-    .app-name {
-      font-size: 1.7rem;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      margin-bottom: 6px;
-      line-height: 1.2;
-    }
-
-    .app-sub {
-      font-size: 1rem;
-      opacity: 0.85;
-      margin-bottom: 40px;
-    }
-
-    /* Loading bar */
-    .loader-wrap {
-      width: 200px;
-      height: 6px;
-      background: rgba(255,255,255,0.25);
-      border-radius: 3px;
-      overflow: hidden;
-      margin: 0 auto 20px;
-    }
-
-    .loader-bar {
-      height: 100%;
-      background: #FFD600;
-      border-radius: 3px;
-      animation: load 1.8s ease-in-out forwards;
-    }
-
-    @keyframes load {
-      from { width: 0; }
-      to   { width: 100%; }
-    }
-
-    .status-text {
-      font-size: 0.85rem;
-      opacity: 0.75;
-      margin-bottom: 32px;
-    }
-
-    /* Butang manual jika redirect lambat */
+    .splash { text-align: center; color: white; animation: fadeIn .6s ease; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    .logo { font-size: 90px; display: block; margin-bottom: 16px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.07)} }
+    .app-name { font-size: 1.8rem; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 6px; line-height: 1.2; }
+    .app-sub { font-size: 1rem; opacity: 0.85; margin-bottom: 36px; }
+    .loader-wrap { width: 220px; height: 7px; background: rgba(255,255,255,0.25); border-radius: 4px; overflow: hidden; margin: 0 auto 16px; }
+    .loader-bar { height: 100%; background: #FFD600; border-radius: 4px; animation: load 2s ease-in-out forwards; }
+    @keyframes load { from{width:0} to{width:100%} }
+    .status-text { font-size: 0.88rem; opacity: 0.75; margin-bottom: 28px; min-height: 22px; }
     .btn-manual {
-      display: inline-block;
+      display: none;
       background: rgba(255,255,255,0.15);
-      color: white;
-      border: 2px solid rgba(255,255,255,0.5);
-      padding: 14px 32px;
-      border-radius: 50px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all .2s;
+      color: white; border: 2.5px solid rgba(255,255,255,0.6);
+      padding: 15px 36px; border-radius: 50px;
+      font-size: 1.05rem; font-weight: 700;
+      cursor: pointer; text-decoration: none;
       backdrop-filter: blur(4px);
+      transition: all .2s;
     }
+    .btn-manual:hover { background: rgba(255,255,255,0.28); }
 
-    .btn-manual:hover {
-      background: rgba(255,255,255,0.25);
-      transform: translateY(-2px);
-    }
-
-    /* Install banner (Android) */
+    /* ===== BANNER INSTALL ANDROID ===== */
     .install-banner {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      background: white;
-      color: #1B5E20;
-      padding: 16px 20px;
-      display: none;
-      align-items: center;
-      gap: 12px;
-      box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-      z-index: 999;
-      border-radius: 16px 16px 0 0;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: white; color: #1B5E20;
+      padding: 18px 20px 24px;
+      display: none; align-items: flex-start; gap: 12px;
+      box-shadow: 0 -6px 24px rgba(0,0,0,0.18);
+      z-index: 9999;
+      border-radius: 20px 20px 0 0;
+      animation: slideUp .4s ease;
     }
-
+    @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
     .install-banner.show { display: flex; }
-
-    .install-icon {
-      font-size: 32px;
-      flex-shrink: 0;
-    }
-
+    .install-icon { font-size: 40px; flex-shrink: 0; margin-top: 2px; }
     .install-text { flex: 1; }
-    .install-title { font-weight: 700; font-size: 0.95rem; }
-    .install-sub { font-size: 0.8rem; color: #666; margin-top: 2px; }
-
+    .install-title { font-weight: 800; font-size: 1rem; color: #1B5E20; margin-bottom: 3px; }
+    .install-sub { font-size: 0.82rem; color: #555; margin-bottom: 12px; line-height: 1.5; }
+    .install-actions { display: flex; gap: 10px; }
     .btn-install {
-      background: #1B5E20;
-      color: white;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-size: 0.88rem;
-      font-weight: 700;
-      cursor: pointer;
-      flex-shrink: 0;
+      background: #1B5E20; color: white; border: none;
+      padding: 11px 22px; border-radius: 10px;
+      font-size: 0.95rem; font-weight: 700; cursor: pointer;
+      flex: 1;
     }
-
-    .btn-dismiss {
-      background: transparent;
-      border: none;
-      color: #999;
-      font-size: 1.2rem;
-      cursor: pointer;
-      padding: 4px;
-      flex-shrink: 0;
+    .btn-skip {
+      background: transparent; color: #888;
+      border: 2px solid #ddd; padding: 11px 16px;
+      border-radius: 10px; font-size: 0.9rem;
+      font-weight: 600; cursor: pointer;
     }
+    .btn-dismiss-x {
+      position: absolute; top: 14px; right: 16px;
+      background: #f0f0f0; border: none; border-radius: 50%;
+      width: 30px; height: 30px; font-size: 1rem;
+      cursor: pointer; color: #666; display: flex;
+      align-items: center; justify-content: center;
+    }
+    /* Countdown ring */
+    .countdown-wrap { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+    .countdown-num { font-size: 0.8rem; color: #1B5E20; font-weight: 700; min-width: 18px; }
+    .countdown-bar-outer { flex: 1; height: 4px; background: #e0e0e0; border-radius: 2px; overflow: hidden; }
+    .countdown-bar-inner { height: 100%; background: #1B5E20; border-radius: 2px; transition: width 1s linear; }
 
-    /* Panduan iOS */
+    /* ===== PANDUAN IOS ===== */
     .ios-guide {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      background: white;
-      padding: 20px;
-      border-radius: 16px 16px 0 0;
-      box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-      display: none;
-      z-index: 999;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: white; padding: 22px 20px 32px;
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -6px 24px rgba(0,0,0,0.18);
+      display: none; z-index: 9999;
+      animation: slideUp .4s ease;
     }
-
     .ios-guide.show { display: block; }
+    .ios-title { font-size: 1rem; font-weight: 800; color: #1B5E20; margin-bottom: 16px; text-align: center; }
+    .ios-step { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 0.9rem; color: #333; line-height: 1.5; }
+    .ios-num { width: 28px; height: 28px; border-radius: 50%; background: #1B5E20; color: white; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+    .btn-close-ios { width: 100%; margin-top: 16px; padding: 13px; border: 2.5px solid #1B5E20; border-radius: 10px; background: transparent; color: #1B5E20; font-weight: 700; font-size: 0.95rem; cursor: pointer; }
+    .btn-dismiss-ios { position: absolute; top: 14px; right: 16px; background: #f0f0f0; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 1rem; cursor: pointer; color: #666; display: flex; align-items: center; justify-content: center; }
 
-    .ios-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #1B5E20;
-      margin-bottom: 14px;
-      text-align: center;
-    }
-
-    .ios-step {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-      font-size: 0.88rem;
-      color: #333;
-    }
-
-    .ios-num {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: #1B5E20;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .btn-close-ios {
-      width: 100%;
-      margin-top: 14px;
-      padding: 12px;
-      border: 2px solid #1B5E20;
-      border-radius: 8px;
-      background: transparent;
-      color: #1B5E20;
-      font-weight: 700;
-      font-size: 0.9rem;
-      cursor: pointer;
-    }
-
-    .version { 
-      position: fixed; 
-      bottom: 8px; 
-      right: 12px; 
-      font-size: 0.7rem; 
-      color: rgba(255,255,255,0.4); 
-    }
+    .version { position: fixed; bottom: 8px; right: 12px; font-size: 0.68rem; color: rgba(255,255,255,0.35); }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 9998; display: none; }
+    .overlay.show { display: block; }
   </style>
 </head>
 <body>
@@ -245,129 +113,154 @@
     <span class="logo">🕌</span>
     <div class="app-name">Ijtimak Tarbawi<br>Dewan Ulamak</div>
     <div class="app-sub">PAS Kawasan Rompin</div>
-    <div class="loader-wrap">
-      <div class="loader-bar"></div>
-    </div>
+    <div class="loader-wrap"><div class="loader-bar"></div></div>
     <div class="status-text" id="statusText">Memuatkan sistem...</div>
     <a class="btn-manual" id="btnManual"
-       href="https://script.google.com/macros/s/AKfycbwVACA6kz51nh5oqmdvtEEvy3Ct9Ms1a5q4-vCCXLl8nBeruFRcFEmSay_UTLpaehxb/exec"
-       style="display:none;">
+       href="https://script.google.com/macros/s/AKfycbwVACA6kz51nh5oqmdvtEEvy3Ct9Ms1a5q4-vCCXLl8nBeruFRcFEmSay_UTLpaehxb/exec">
       🟢 Buka Sistem Kehadiran
     </a>
   </div>
 
-  <!-- Banner install Android -->
-  <div class="install-banner" id="installBanner">
+  <!-- Overlay gelap -->
+  <div class="overlay" id="overlay" onclick="tutupSemua()"></div>
+
+  <!-- Banner Install Android -->
+  <div class="install-banner" id="installBanner" style="position:fixed;">
+    <button class="btn-dismiss-x" onclick="tutupBanner()" aria-label="Tutup">✕</button>
     <div class="install-icon">🕌</div>
     <div class="install-text">
-      <div class="install-title">Simpan sebagai App</div>
-      <div class="install-sub">Tambah ikon ke skrin utama telefon anda</div>
+      <div class="install-title">Simpan App ke Homescreen</div>
+      <div class="install-sub">Tambah ikon Ijtimak Tarbawi ke skrin utama telefon anda untuk akses lebih mudah pada masa hadapan.</div>
+      <div class="countdown-wrap">
+        <span class="countdown-num" id="cdNum">5</span>
+        <div class="countdown-bar-outer">
+          <div class="countdown-bar-inner" id="cdBar" style="width:100%"></div>
+        </div>
+      </div>
+      <div class="install-actions">
+        <button class="btn-install" id="btnInstall">📲 Pasang Sekarang</button>
+        <button class="btn-skip" onclick="tutupBanner()">✕ Tidak</button>
+      </div>
     </div>
-    <button class="btn-install" id="btnInstall">Pasang</button>
-    <button class="btn-dismiss" onclick="dismissBanner()">✕</button>
   </div>
 
   <!-- Panduan iOS -->
   <div class="ios-guide" id="iosGuide">
+    <button class="btn-dismiss-ios" onclick="tutupIOS()" aria-label="Tutup">✕</button>
     <div class="ios-title">📱 Simpan ke Homescreen iPhone</div>
     <div class="ios-step">
       <div class="ios-num">1</div>
-      <div>Klik ikon <strong>Share</strong> (kotak ↑) di bar bawah Safari</div>
+      <div>Klik ikon <strong>Share ⬆️</strong> di bar bawah Safari</div>
     </div>
     <div class="ios-step">
       <div class="ios-num">2</div>
-      <div>Skrol dan pilih <strong>"Add to Home Screen"</strong></div>
+      <div>Skrol → pilih <strong>"Add to Home Screen"</strong></div>
     </div>
     <div class="ios-step">
       <div class="ios-num">3</div>
-      <div>Nama sudah ditetapkan → klik <strong>"Add"</strong></div>
+      <div>Klik <strong>"Add"</strong> — Ikon 🕌 akan muncul!</div>
     </div>
-    <div class="ios-step">
-      <div class="ios-num">4</div>
-      <div>✅ Ikon 🕌 akan muncul di homescreen anda!</div>
-    </div>
-    <button class="btn-close-ios" onclick="closeIOS()">Faham, Tutup</button>
+    <button class="btn-close-ios" onclick="tutupIOS()">✓ Faham, Teruskan</button>
   </div>
 
-  <div class="version">v1.0</div>
+  <div class="version">v1.1</div>
 
 <script>
   const APP_URL = 'https://script.google.com/macros/s/AKfycbwVACA6kz51nh5oqmdvtEEvy3Ct9Ms1a5q4-vCCXLl8nBeruFRcFEmSay_UTLpaehxb/exec';
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
-  // === DAFTAR SERVICE WORKER ===
+  // Daftar Service Worker
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js')
-      .then(() => console.log('SW registered'))
-      .catch(e => console.log('SW error:', e));
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
   }
 
-  // === AUTO REDIRECT selepas 2 saat ===
-  let redirected = false;
-
-  setTimeout(() => {
-    document.getElementById('statusText').textContent = 'Membuka sistem...';
-  }, 800);
-
-  setTimeout(() => {
-    redirected = true;
+  // Jika sudah install sebagai app — redirect terus
+  if (isStandalone) {
     window.location.href = APP_URL;
-  }, 2000);
+  }
 
-  // Tunjuk butang manual jika redirect gagal (3 saat)
+  // Animasi status teks
+  setTimeout(() => { document.getElementById('statusText').textContent = 'Membuka sistem kehadiran...'; }, 1000);
+
+  // Auto redirect selepas 2 saat
+  setTimeout(() => { window.location.href = APP_URL; }, 2000);
+
+  // Tunjuk butang manual jika redirect lambat
   setTimeout(() => {
-    if (!redirected) return;
-    document.getElementById('btnManual').style.display = 'inline-block';
-    document.getElementById('statusText').textContent = 'Klik butang di bawah jika tidak redirect';
-  }, 3500);
+    const btn = document.getElementById('btnManual');
+    btn.style.display = 'inline-block';
+    document.getElementById('statusText').textContent = 'Klik butang jika tidak redirect automatik';
+  }, 4000);
 
-  // === DETECT PLATFORM ===
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  const isAndroid = /Android/.test(navigator.userAgent);
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches 
-                    || window.navigator.standalone;
-
-  // === ANDROID: Install Prompt ===
-  let deferredPrompt;
+  // ===== ANDROID: Install Prompt =====
+  let deferredPrompt = null;
+  let cdTimer = null;
+  let cdSisa = 5;
 
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    // Tunjuk banner selepas 3 saat
+    // Tunjuk banner selepas 3 saat (bagi masa redirect dulu)
     setTimeout(() => {
-      if (!isStandalone) {
-        document.getElementById('installBanner').classList.add('show');
-      }
+      if (!isStandalone) mulakanBanner();
     }, 3000);
   });
+
+  function mulakanBanner() {
+    document.getElementById('installBanner').classList.add('show');
+    document.getElementById('overlay').classList.add('show');
+    cdSisa = 5;
+    kemasBilangan();
+    // Countdown 5 saat
+    cdTimer = setInterval(() => {
+      cdSisa--;
+      kemasBilangan();
+      if (cdSisa <= 0) {
+        clearInterval(cdTimer);
+        // JANGAN auto tutup — biarkan user pilih
+      }
+    }, 1000);
+  }
+
+  function kemasBilangan() {
+    const el = document.getElementById('cdNum');
+    const bar = document.getElementById('cdBar');
+    if (el) el.textContent = Math.max(0, cdSisa);
+    if (bar) bar.style.width = (Math.max(0, cdSisa) / 5 * 100) + '%';
+  }
 
   document.getElementById('btnInstall').addEventListener('click', async () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
       deferredPrompt = null;
-      dismissBanner();
+      tutupBanner();
     }
   });
 
-  function dismissBanner() {
+  function tutupBanner() {
+    clearInterval(cdTimer);
     document.getElementById('installBanner').classList.remove('show');
+    document.getElementById('overlay').classList.remove('show');
   }
 
-  // === iOS: Tunjuk panduan ===
+  // ===== iOS: Panduan =====
   if (isIOS && !isStandalone) {
     setTimeout(() => {
       document.getElementById('iosGuide').classList.add('show');
-    }, 3500);
+      document.getElementById('overlay').classList.add('show');
+    }, 3000);
   }
 
-  function closeIOS() {
+  function tutupIOS() {
     document.getElementById('iosGuide').classList.remove('show');
+    document.getElementById('overlay').classList.remove('show');
   }
 
-  // === Jika sudah dalam standalone mode (dah install) ===
-  // Redirect terus tanpa splash
-  if (isStandalone) {
-    window.location.href = APP_URL;
+  function tutupSemua() {
+    tutupBanner();
+    tutupIOS();
   }
 </script>
 </body>
