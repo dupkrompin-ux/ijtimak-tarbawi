@@ -9,259 +9,234 @@
   <meta name="apple-mobile-web-app-title" content="Ijtimak Tarbawi">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="description" content="Sistem Kehadiran Ijtimak Tarbawi Dewan Ulamak PAS Kawasan Rompin">
+  <!-- Cache buster: v3 -->
   <title>Ijtimak Tarbawi Dewan Ulamak</title>
-  <link rel="manifest" href="./manifest.json">
+  <link rel="manifest" href="./manifest.json?v=3">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(160deg, #1B5E20 0%, #43A047 100%);
-      min-height: 100vh; min-height: 100dvh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 24px 16px;
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      font-family:'Segoe UI',Arial,sans-serif;
+      background:linear-gradient(160deg,#1B5E20 0%,#43A047 100%);
+      min-height:100vh;min-height:100dvh;
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:center;padding:24px 16px;
     }
-    .splash { text-align: center; color: white; animation: fadeIn .6s ease; }
-    @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-    .logo { font-size: 90px; display: block; margin-bottom: 16px; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.07)} }
-    .app-name { font-size: 1.8rem; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 6px; line-height: 1.2; }
-    .app-sub { font-size: 1rem; opacity: 0.85; margin-bottom: 36px; }
-    .loader-wrap { width: 220px; height: 7px; background: rgba(255,255,255,0.25); border-radius: 4px; overflow: hidden; margin: 0 auto 16px; }
-    .loader-bar { height: 100%; background: #FFD600; border-radius: 4px; animation: load 2s ease-in-out forwards; }
-    @keyframes load { from{width:0} to{width:100%} }
-    .status-text { font-size: 0.88rem; opacity: 0.75; margin-bottom: 28px; min-height: 22px; }
-    .btn-manual {
-      display: none;
-      background: rgba(255,255,255,0.15);
-      color: white; border: 2.5px solid rgba(255,255,255,0.6);
-      padding: 15px 36px; border-radius: 50px;
-      font-size: 1.05rem; font-weight: 700;
-      cursor: pointer; text-decoration: none;
-      backdrop-filter: blur(4px);
-      transition: all .2s;
+    .splash{text-align:center;color:white;animation:fadeIn .6s ease;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .logo{font-size:90px;display:block;margin-bottom:16px;animation:pulse 2s infinite;}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+    .app-name{font-size:1.8rem;font-weight:800;letter-spacing:.5px;margin-bottom:6px;line-height:1.2;}
+    .app-sub{font-size:1rem;opacity:.85;margin-bottom:36px;}
+    .loader-wrap{width:220px;height:7px;background:rgba(255,255,255,.25);border-radius:4px;overflow:hidden;margin:0 auto 16px;}
+    .loader-bar{height:100%;background:#FFD600;border-radius:4px;animation:load 2s ease-in-out forwards;}
+    @keyframes load{from{width:0}to{width:100%}}
+    .status-text{font-size:.88rem;opacity:.75;margin-bottom:28px;min-height:22px;}
+    .btn-manual{
+      display:none;background:rgba(255,255,255,.15);color:white;
+      border:2.5px solid rgba(255,255,255,.6);padding:15px 36px;
+      border-radius:50px;font-size:1.05rem;font-weight:700;
+      cursor:pointer;text-decoration:none;backdrop-filter:blur(4px);
     }
-    .btn-manual:hover { background: rgba(255,255,255,0.28); }
-
-    /* ===== BANNER INSTALL ANDROID ===== */
-    .install-banner {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: white; color: #1B5E20;
-      padding: 18px 20px 24px;
-      display: none; align-items: flex-start; gap: 12px;
-      box-shadow: 0 -6px 24px rgba(0,0,0,0.18);
-      z-index: 9999;
-      border-radius: 20px 20px 0 0;
-      animation: slideUp .4s ease;
+    /* OVERLAY */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9998;display:none;}
+    .overlay.show{display:block;}
+    /* BANNER INSTALL ANDROID */
+    .install-banner{
+      position:fixed;bottom:0;left:0;right:0;background:white;
+      padding:20px 20px 30px;display:none;flex-direction:column;
+      box-shadow:0 -8px 32px rgba(0,0,0,.2);z-index:9999;
+      border-radius:24px 24px 0 0;animation:slideUp .4s ease;
     }
-    @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
-    .install-banner.show { display: flex; }
-    .install-icon { font-size: 40px; flex-shrink: 0; margin-top: 2px; }
-    .install-text { flex: 1; }
-    .install-title { font-weight: 800; font-size: 1rem; color: #1B5E20; margin-bottom: 3px; }
-    .install-sub { font-size: 0.82rem; color: #555; margin-bottom: 12px; line-height: 1.5; }
-    .install-actions { display: flex; gap: 10px; }
-    .btn-install {
-      background: #1B5E20; color: white; border: none;
-      padding: 11px 22px; border-radius: 10px;
-      font-size: 0.95rem; font-weight: 700; cursor: pointer;
-      flex: 1;
+    @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+    .install-banner.show{display:flex;}
+    .banner-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px;}
+    .banner-icon{font-size:44px;flex-shrink:0;}
+    .banner-text{flex:1;}
+    .banner-title{font-weight:800;font-size:1.05rem;color:#1B5E20;margin-bottom:4px;}
+    .banner-sub{font-size:.85rem;color:#555;line-height:1.5;}
+    .btn-x{
+      position:absolute;top:16px;right:16px;
+      background:#f0f0f0;border:none;border-radius:50%;
+      width:34px;height:34px;font-size:1.1rem;
+      cursor:pointer;color:#555;font-weight:700;
+      display:flex;align-items:center;justify-content:center;
     }
-    .btn-skip {
-      background: transparent; color: #888;
-      border: 2px solid #ddd; padding: 11px 16px;
-      border-radius: 10px; font-size: 0.9rem;
-      font-weight: 600; cursor: pointer;
+    /* Countdown */
+    .cd-wrap{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+    .cd-label{font-size:.8rem;color:#888;}
+    .cd-num{font-size:.95rem;font-weight:800;color:#1B5E20;min-width:20px;}
+    .cd-bar-out{flex:1;height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;}
+    .cd-bar-in{height:100%;background:#1B5E20;border-radius:3px;transition:width 1s linear;}
+    /* Butang */
+    .banner-btns{display:flex;gap:10px;}
+    .btn-pasang{
+      flex:1;background:#1B5E20;color:white;border:none;
+      padding:14px;border-radius:12px;font-size:1rem;
+      font-weight:800;cursor:pointer;
     }
-    .btn-dismiss-x {
-      position: absolute; top: 14px; right: 16px;
-      background: #f0f0f0; border: none; border-radius: 50%;
-      width: 30px; height: 30px; font-size: 1rem;
-      cursor: pointer; color: #666; display: flex;
-      align-items: center; justify-content: center;
+    .btn-tidak{
+      background:transparent;color:#888;
+      border:2px solid #ddd;padding:14px 18px;
+      border-radius:12px;font-size:.95rem;
+      font-weight:600;cursor:pointer;
     }
-    /* Countdown ring */
-    .countdown-wrap { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
-    .countdown-num { font-size: 0.8rem; color: #1B5E20; font-weight: 700; min-width: 18px; }
-    .countdown-bar-outer { flex: 1; height: 4px; background: #e0e0e0; border-radius: 2px; overflow: hidden; }
-    .countdown-bar-inner { height: 100%; background: #1B5E20; border-radius: 2px; transition: width 1s linear; }
-
-    /* ===== PANDUAN IOS ===== */
-    .ios-guide {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: white; padding: 22px 20px 32px;
-      border-radius: 20px 20px 0 0;
-      box-shadow: 0 -6px 24px rgba(0,0,0,0.18);
-      display: none; z-index: 9999;
-      animation: slideUp .4s ease;
+    /* IOS GUIDE */
+    .ios-guide{
+      position:fixed;bottom:0;left:0;right:0;background:white;
+      padding:24px 20px 36px;border-radius:24px 24px 0 0;
+      box-shadow:0 -8px 32px rgba(0,0,0,.2);
+      display:none;z-index:9999;animation:slideUp .4s ease;
     }
-    .ios-guide.show { display: block; }
-    .ios-title { font-size: 1rem; font-weight: 800; color: #1B5E20; margin-bottom: 16px; text-align: center; }
-    .ios-step { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 0.9rem; color: #333; line-height: 1.5; }
-    .ios-num { width: 28px; height: 28px; border-radius: 50%; background: #1B5E20; color: white; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
-    .btn-close-ios { width: 100%; margin-top: 16px; padding: 13px; border: 2.5px solid #1B5E20; border-radius: 10px; background: transparent; color: #1B5E20; font-weight: 700; font-size: 0.95rem; cursor: pointer; }
-    .btn-dismiss-ios { position: absolute; top: 14px; right: 16px; background: #f0f0f0; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 1rem; cursor: pointer; color: #666; display: flex; align-items: center; justify-content: center; }
-
-    .version { position: fixed; bottom: 8px; right: 12px; font-size: 0.68rem; color: rgba(255,255,255,0.35); }
-    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 9998; display: none; }
-    .overlay.show { display: block; }
+    .ios-guide.show{display:block;}
+    .ios-title{font-size:1rem;font-weight:800;color:#1B5E20;margin-bottom:16px;text-align:center;}
+    .ios-step{display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:.92rem;color:#333;line-height:1.5;}
+    .ios-num{width:30px;height:30px;border-radius:50%;background:#1B5E20;color:white;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;}
+    .btn-ios-close{width:100%;margin-top:16px;padding:14px;border:2.5px solid #1B5E20;border-radius:12px;background:transparent;color:#1B5E20;font-weight:800;font-size:.95rem;cursor:pointer;}
+    .version{position:fixed;bottom:8px;right:12px;font-size:.68rem;color:rgba(255,255,255,.3);}
   </style>
 </head>
 <body>
 
-  <div class="splash">
-    <span class="logo">🕌</span>
-    <div class="app-name">Ijtimak Tarbawi<br>Dewan Ulamak</div>
-    <div class="app-sub">PAS Kawasan Rompin</div>
-    <div class="loader-wrap"><div class="loader-bar"></div></div>
-    <div class="status-text" id="statusText">Memuatkan sistem...</div>
-    <a class="btn-manual" id="btnManual"
-       href="https://script.google.com/macros/s/AKfycbwVACA6kz51nh5oqmdvtEEvy3Ct9Ms1a5q4-vCCXLl8nBeruFRcFEmSay_UTLpaehxb/exec">
-      🟢 Buka Sistem Kehadiran
-    </a>
-  </div>
+<div class="splash">
+  <span class="logo">🕌</span>
+  <div class="app-name">Ijtimak Tarbawi<br>Dewan Ulamak</div>
+  <div class="app-sub">PAS Kawasan Rompin</div>
+  <div class="loader-wrap"><div class="loader-bar"></div></div>
+  <div class="status-text" id="sTxt">Memuatkan sistem...</div>
+  <a class="btn-manual" id="btnM"
+     href="https://script.google.com/macros/s/AKfycbwVACA6kz51nh5oqmdvtEEvy3Ct9Ms1a5q4-vCCXLl8nBeruFRcFEmSay_UTLpaehxb/exec">
+    🟢 Buka Sistem Kehadiran
+  </a>
+</div>
 
-  <!-- Overlay gelap -->
-  <div class="overlay" id="overlay" onclick="tutupSemua()"></div>
+<div class="overlay" id="overlay" onclick="tutupSemua()"></div>
 
-  <!-- Banner Install Android -->
-  <div class="install-banner" id="installBanner" style="position:fixed;">
-    <button class="btn-dismiss-x" onclick="tutupBanner()" aria-label="Tutup">✕</button>
-    <div class="install-icon">🕌</div>
-    <div class="install-text">
-      <div class="install-title">Simpan App ke Homescreen</div>
-      <div class="install-sub">Tambah ikon Ijtimak Tarbawi ke skrin utama telefon anda untuk akses lebih mudah pada masa hadapan.</div>
-      <div class="countdown-wrap">
-        <span class="countdown-num" id="cdNum">5</span>
-        <div class="countdown-bar-outer">
-          <div class="countdown-bar-inner" id="cdBar" style="width:100%"></div>
-        </div>
-      </div>
-      <div class="install-actions">
-        <button class="btn-install" id="btnInstall">📲 Pasang Sekarang</button>
-        <button class="btn-skip" onclick="tutupBanner()">✕ Tidak</button>
-      </div>
+<!-- BANNER ANDROID -->
+<div class="install-banner" id="iBanner">
+  <button class="btn-x" onclick="tutupBanner()" aria-label="Tutup">✕</button>
+  <div class="banner-top">
+    <div class="banner-icon">🕌</div>
+    <div class="banner-text">
+      <div class="banner-title">Simpan App ke Homescreen</div>
+      <div class="banner-sub">Tambah ikon Ijtimak Tarbawi ke skrin utama telefon untuk akses lebih mudah.</div>
     </div>
   </div>
-
-  <!-- Panduan iOS -->
-  <div class="ios-guide" id="iosGuide">
-    <button class="btn-dismiss-ios" onclick="tutupIOS()" aria-label="Tutup">✕</button>
-    <div class="ios-title">📱 Simpan ke Homescreen iPhone</div>
-    <div class="ios-step">
-      <div class="ios-num">1</div>
-      <div>Klik ikon <strong>Share ⬆️</strong> di bar bawah Safari</div>
-    </div>
-    <div class="ios-step">
-      <div class="ios-num">2</div>
-      <div>Skrol → pilih <strong>"Add to Home Screen"</strong></div>
-    </div>
-    <div class="ios-step">
-      <div class="ios-num">3</div>
-      <div>Klik <strong>"Add"</strong> — Ikon 🕌 akan muncul!</div>
-    </div>
-    <button class="btn-close-ios" onclick="tutupIOS()">✓ Faham, Teruskan</button>
+  <div class="cd-wrap">
+    <span class="cd-label">Tutup dalam</span>
+    <span class="cd-num" id="cdN">10</span>
+    <span class="cd-label">saat</span>
+    <div class="cd-bar-out"><div class="cd-bar-in" id="cdB" style="width:100%"></div></div>
   </div>
+  <div class="banner-btns">
+    <button class="btn-pasang" id="btnP">📲 Pasang Sekarang</button>
+    <button class="btn-tidak" onclick="tutupBanner()">✕ Tidak</button>
+  </div>
+</div>
 
-  <div class="version">v1.1</div>
+<!-- PANDUAN iOS -->
+<div class="ios-guide" id="iGuide">
+  <button class="btn-x" onclick="tutupIOS()" style="top:16px;right:16px;position:absolute;" aria-label="Tutup">✕</button>
+  <div class="ios-title">📱 Simpan ke Homescreen iPhone</div>
+  <div class="ios-step"><div class="ios-num">1</div><div>Klik ikon <strong>Share ⬆️</strong> di bar bawah Safari</div></div>
+  <div class="ios-step"><div class="ios-num">2</div><div>Skrol ke bawah → pilih <strong>"Add to Home Screen"</strong></div></div>
+  <div class="ios-step"><div class="ios-num">3</div><div>Klik <strong>"Add"</strong> — Ikon 🕌 akan muncul di homescreen!</div></div>
+  <button class="btn-ios-close" onclick="tutupIOS()">✓ Faham, Teruskan</button>
+</div>
+
+<div class="version">v3</div>
 
 <script>
-  const APP_URL = 'https://script.google.com/macros/s/AKfycbwVACA6kz51nh5oqmdvtEEvy3Ct9Ms1a5q4-vCCXLl8nBeruFRcFEmSay_UTLpaehxb/exec';
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+const APP_URL='https://script.google.com/macros/s/AKfycbwVACA6kz51nh5oqmdvtEEvy3Ct9Ms1a5q4-vCCXLl8nBeruFRcFEmSay_UTLpaehxb/exec';
+const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+const isStandalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone;
 
-  // Daftar Service Worker
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
-  }
-
-  // Jika sudah install sebagai app — redirect terus
-  if (isStandalone) {
-    window.location.href = APP_URL;
-  }
-
-  // Animasi status teks
-  setTimeout(() => { document.getElementById('statusText').textContent = 'Membuka sistem kehadiran...'; }, 1000);
-
-  // Auto redirect selepas 2 saat
-  setTimeout(() => { window.location.href = APP_URL; }, 2000);
-
-  // Tunjuk butang manual jika redirect lambat
-  setTimeout(() => {
-    const btn = document.getElementById('btnManual');
-    btn.style.display = 'inline-block';
-    document.getElementById('statusText').textContent = 'Klik butang jika tidak redirect automatik';
-  }, 4000);
-
-  // ===== ANDROID: Install Prompt =====
-  let deferredPrompt = null;
-  let cdTimer = null;
-  let cdSisa = 5;
-
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    // Tunjuk banner selepas 3 saat (bagi masa redirect dulu)
-    setTimeout(() => {
-      if (!isStandalone) mulakanBanner();
-    }, 3000);
+// Paksa unregister SW lama dan daftar SW baharu
+if('serviceWorker' in navigator){
+  // Unregister semua SW lama dulu
+  navigator.serviceWorker.getRegistrations().then(regs=>{
+    regs.forEach(r=>r.unregister());
+  }).then(()=>{
+    // Daftar SW baharu
+    navigator.serviceWorker.register('./sw.js?v=3');
   });
+}
 
-  function mulakanBanner() {
-    document.getElementById('installBanner').classList.add('show');
-    document.getElementById('overlay').classList.add('show');
-    cdSisa = 5;
-    kemasBilangan();
-    // Countdown 5 saat
-    cdTimer = setInterval(() => {
-      cdSisa--;
-      kemasBilangan();
-      if (cdSisa <= 0) {
-        clearInterval(cdTimer);
-        // JANGAN auto tutup — biarkan user pilih
-      }
-    }, 1000);
-  }
+// Jika dah install sebagai app — redirect terus
+if(isStandalone){ window.location.href=APP_URL; }
 
-  function kemasBilangan() {
-    const el = document.getElementById('cdNum');
-    const bar = document.getElementById('cdBar');
-    if (el) el.textContent = Math.max(0, cdSisa);
-    if (bar) bar.style.width = (Math.max(0, cdSisa) / 5 * 100) + '%';
-  }
+// Status teks
+setTimeout(()=>{ document.getElementById('sTxt').textContent='Membuka sistem kehadiran...'; },1000);
 
-  document.getElementById('btnInstall').addEventListener('click', async () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      deferredPrompt = null;
-      tutupBanner();
-    }
-  });
+// Auto redirect selepas 2 saat
+setTimeout(()=>{ window.location.href=APP_URL; },2000);
 
-  function tutupBanner() {
-    clearInterval(cdTimer);
-    document.getElementById('installBanner').classList.remove('show');
-    document.getElementById('overlay').classList.remove('show');
-  }
+// Butang manual jika redirect lambat
+setTimeout(()=>{
+  document.getElementById('btnM').style.display='inline-block';
+  document.getElementById('sTxt').textContent='Klik butang jika tidak redirect automatik';
+},4500);
 
-  // ===== iOS: Panduan =====
-  if (isIOS && !isStandalone) {
-    setTimeout(() => {
-      document.getElementById('iosGuide').classList.add('show');
-      document.getElementById('overlay').classList.add('show');
-    }, 3000);
-  }
+// ===== ANDROID INSTALL =====
+let deferredPrompt=null;
+let cdTimer=null;
+const CD_MAX=10; // 10 saat
+let cdSisa=CD_MAX;
 
-  function tutupIOS() {
-    document.getElementById('iosGuide').classList.remove('show');
-    document.getElementById('overlay').classList.remove('show');
-  }
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  setTimeout(()=>{ if(!isStandalone) mulakanBanner(); },3500);
+});
 
-  function tutupSemua() {
+function mulakanBanner(){
+  cdSisa=CD_MAX;
+  kemasCd();
+  document.getElementById('iBanner').classList.add('show');
+  document.getElementById('overlay').classList.add('show');
+  // Countdown 10 saat — TIDAK auto tutup, hanya tukar warna
+  cdTimer=setInterval(()=>{
+    cdSisa--;
+    kemasCd();
+    if(cdSisa<=0){ clearInterval(cdTimer); }
+  },1000);
+}
+
+function kemasCd(){
+  const n=document.getElementById('cdN');
+  const b=document.getElementById('cdB');
+  if(n) n.textContent=Math.max(0,cdSisa);
+  if(b) b.style.width=(Math.max(0,cdSisa)/CD_MAX*100)+'%';
+}
+
+document.getElementById('btnP').addEventListener('click',async()=>{
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    const{outcome}=await deferredPrompt.userChoice;
+    deferredPrompt=null;
     tutupBanner();
-    tutupIOS();
   }
+});
+
+function tutupBanner(){
+  clearInterval(cdTimer);
+  document.getElementById('iBanner').classList.remove('show');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// ===== iOS =====
+if(isIOS&&!isStandalone){
+  setTimeout(()=>{
+    document.getElementById('iGuide').classList.add('show');
+    document.getElementById('overlay').classList.add('show');
+  },3500);
+}
+
+function tutupIOS(){
+  document.getElementById('iGuide').classList.remove('show');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+function tutupSemua(){ tutupBanner(); tutupIOS(); }
 </script>
 </body>
 </html>
