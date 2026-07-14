@@ -1,57 +1,43 @@
-// ============================================================
-// SERVICE WORKER — Ijtimak Tarbawi Dewan Ulamak
-// ============================================================
+// SERVICE WORKER v3 — Ijtimak Tarbawi Dewan Ulamak
+// Tukar versi ini setiap kali nak paksa browser ambil kod terbaru
 
-const CACHE_NAME = 'ijtimak-tarbawi-v1';
-const ASSETS = [
-  './',
-  './index.html',
-  './manifest.json'
-];
+const CACHE_NAME = 'ijtimak-tarbawi-v3';
+const ASSETS = ['./', './index.html', './manifest.json'];
 
 // Install — cache fail asas
 self.addEventListener('install', event => {
+  self.skipWaiting(); // Paksa SW baharu aktif serta-merta
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(ASSETS);
-    })
+    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
   );
-  self.skipWaiting();
 });
 
-// Activate — buang cache lama
+// Activate — BUANG semua cache lama
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(keys => {
-      return Promise.all(
-        keys.filter(key => key !== CACHE_NAME)
-            .map(key => caches.delete(key))
-      );
-    })
+    caches.keys().then(keys =>
+      Promise.all(keys.map(key => {
+        if (key !== CACHE_NAME) {
+          console.log('Buang cache lama:', key);
+          return caches.delete(key);
+        }
+      }))
+    ).then(() => self.clients.claim()) // Ambil alih semua tab serta-merta
   );
-  self.clients.claim();
 });
 
-// Fetch — network first, fallback to cache
+// Fetch — Network first, JANGAN cache Apps Script
 self.addEventListener('fetch', event => {
-  // Jangan cache Apps Script requests
-  if (event.request.url.includes('script.google.com')) {
-    return;
-  }
+  // Jangan cache Apps Script sama sekali
+  if (event.request.url.includes('script.google.com')) return;
 
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        // Simpan salinan dalam cache
         const clone = response.clone();
-        caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, clone);
-        });
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
         return response;
       })
-      .catch(() => {
-        // Jika tiada internet, guna cache
-        return caches.match(event.request);
-      })
+      .catch(() => caches.match(event.request))
   );
 });
