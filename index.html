@@ -9,9 +9,10 @@
   <meta name="apple-mobile-web-app-title" content="Dewan Ulamak">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="description" content="Sistem Kehadiran Dewan Ulamak PAS Kawasan Rompin">
-  <!-- Cache buster: v4 -->
-  <title>Dewan Ulamak</title>
-  <link rel="manifest" href="./manifest.json?v=4">
+  <!-- REDIRECT SEGERA -->
+  <meta http-equiv="refresh" content="2;url=https://script.google.com/macros/s/AKfycbwHnw66nVouKIf6kBZvHuiIoLJh3xQ_mpfNLffHgvYfL9Z07UP_x0XtAV3rK5VQaCIp/exec">
+  <title>Dewan Ulamak PAS Kawasan Rompin</title>
+  <link rel="manifest" href="./manifest.json?v=5">
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
     body{
@@ -21,21 +22,28 @@
       display:flex;flex-direction:column;
       align-items:center;justify-content:center;padding:24px 16px;
     }
-    .splash{text-align:center;color:white;animation:fadeIn .6s ease;}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-    .logo{font-size:90px;display:block;margin-bottom:16px;animation:pulse 2s infinite;}
-    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
-    .app-name{font-size:1.8rem;font-weight:800;letter-spacing:.5px;margin-bottom:6px;line-height:1.2;}
+    .splash{text-align:center;color:white;animation:fadeIn .5s ease;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .logo{font-size:90px;display:block;margin-bottom:16px;}
+    .app-name{font-size:1.9rem;font-weight:800;letter-spacing:.5px;margin-bottom:6px;line-height:1.2;}
     .app-sub{font-size:1rem;opacity:.85;margin-bottom:36px;}
-    .loader-wrap{width:220px;height:7px;background:rgba(255,255,255,.25);border-radius:4px;overflow:hidden;margin:0 auto 16px;}
+    .loader-wrap{width:240px;height:7px;background:rgba(255,255,255,.25);border-radius:4px;overflow:hidden;margin:0 auto 16px;}
     .loader-bar{height:100%;background:#FFD600;border-radius:4px;animation:load 2s ease-in-out forwards;}
     @keyframes load{from{width:0}to{width:100%}}
-    .status-text{font-size:.88rem;opacity:.75;margin-bottom:28px;min-height:22px;}
+    .status-text{font-size:.88rem;opacity:.75;margin-bottom:28px;}
     .btn-manual{
-      display:none;background:rgba(255,255,255,.15);color:white;
-      border:2.5px solid rgba(255,255,255,.6);padding:15px 36px;
-      border-radius:50px;font-size:1.05rem;font-weight:700;
-      cursor:pointer;text-decoration:none;backdrop-filter:blur(4px);
+      display:inline-block;
+      background:rgba(255,255,255,.9);
+      color:#1B5E20;
+      border:none;
+      padding:16px 36px;
+      border-radius:50px;
+      font-size:1.05rem;
+      font-weight:800;
+      cursor:pointer;
+      text-decoration:none;
+      box-shadow:0 4px 20px rgba(0,0,0,0.2);
+      margin-top:8px;
     }
     /* OVERLAY */
     .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9998;display:none;}
@@ -43,9 +51,9 @@
     /* BANNER INSTALL ANDROID */
     .install-banner{
       position:fixed;bottom:0;left:0;right:0;background:white;
-      padding:20px 20px 34px;display:none;flex-direction:column;
-      box-shadow:0 -12px 40px rgba(0,0,0,.35);z-index:9999;
-      border-radius:28px 28px 0 0;animation:slideUp .5s cubic-bezier(.175,.885,.32,1.275);
+      padding:20px 20px 30px;display:none;flex-direction:column;
+      box-shadow:0 -8px 32px rgba(0,0,0,.2);z-index:9999;
+      border-radius:24px 24px 0 0;animation:slideUp .4s ease;
       border-top:4px solid #1B5E20;
     }
     @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
@@ -56,40 +64,32 @@
     .banner-title{font-weight:800;font-size:1.05rem;color:#1B5E20;margin-bottom:4px;}
     .banner-sub{font-size:.85rem;color:#555;line-height:1.5;}
     .btn-x{
-      position:absolute;top:16px;right:16px;
+      position:absolute;top:14px;right:14px;
       background:#f0f0f0;border:none;border-radius:50%;
       width:34px;height:34px;font-size:1.1rem;
       cursor:pointer;color:#555;font-weight:700;
       display:flex;align-items:center;justify-content:center;
     }
-    /* Countdown */
     .cd-wrap{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
     .cd-label{font-size:.8rem;color:#888;}
-    .cd-num{font-size:.95rem;font-weight:800;color:#1B5E20;min-width:20px;}
+    .cd-num{font-size:.95rem;font-weight:800;color:#1B5E20;min-width:24px;}
     .cd-bar-out{flex:1;height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;}
     .cd-bar-in{height:100%;background:#1B5E20;border-radius:3px;transition:width 1s linear;}
-    /* Butang */
     .banner-btns{display:flex;gap:10px;}
     .btn-pasang{
       flex:2;background:linear-gradient(135deg,#1B5E20,#43A047);color:white;border:none;
-      padding:16px;border-radius:14px;font-size:1.05rem;
-      font-weight:800;cursor:pointer;
+      padding:16px;border-radius:14px;font-size:1.05rem;font-weight:800;cursor:pointer;
       box-shadow:0 4px 16px rgba(27,94,32,0.3);
-      transition:transform .15s;
     }
-    .btn-pasang:active{transform:scale(.97);}
     .btn-tidak{
-      flex:1;background:#f5f5f5;color:#666;
-      border:2px solid #e0e0e0;padding:16px 14px;
-      border-radius:14px;font-size:.9rem;
-      font-weight:700;cursor:pointer;
+      flex:1;background:#f5f5f5;color:#666;border:2px solid #e0e0e0;
+      padding:16px 14px;border-radius:14px;font-size:.9rem;font-weight:700;cursor:pointer;
     }
-    /* IOS GUIDE */
     .ios-guide{
       position:fixed;bottom:0;left:0;right:0;background:white;
       padding:24px 20px 36px;border-radius:24px 24px 0 0;
-      box-shadow:0 -8px 32px rgba(0,0,0,.2);
-      display:none;z-index:9999;animation:slideUp .4s ease;
+      box-shadow:0 -8px 32px rgba(0,0,0,.2);display:none;z-index:9999;
+      animation:slideUp .4s ease;
     }
     .ios-guide.show{display:block;}
     .ios-title{font-size:1rem;font-weight:800;color:#1B5E20;margin-bottom:16px;text-align:center;}
@@ -107,9 +107,8 @@
   <div class="app-sub">PAS Kawasan Rompin</div>
   <div class="loader-wrap"><div class="loader-bar"></div></div>
   <div class="status-text" id="sTxt">Memuatkan sistem...</div>
-  <a class="btn-manual" id="btnM"
-     href="https://script.google.com/macros/s/AKfycbyUkQW99qgL8rOGwo8-Or4OM2rB6uIcQZl1aBjaHph7Gj2uwOWfoyXP5wuJDCQlPT2D/exec">
-    🟢 Buka Sistem Kehadiran
+  <a class="btn-manual" href="https://script.google.com/macros/s/AKfycbwHnw66nVouKIf6kBZvHuiIoLJh3xQ_mpfNLffHgvYfL9Z07UP_x0XtAV3rK5VQaCIp/exec">
+    🟢 Klik Di Sini Jika Tidak Redirect
   </a>
 </div>
 
@@ -117,7 +116,7 @@
 
 <!-- BANNER ANDROID -->
 <div class="install-banner" id="iBanner">
-  <button class="btn-x" onclick="tutupBanner()" aria-label="Tutup">✕</button>
+  <button class="btn-x" onclick="tutupBanner()">✕</button>
   <div class="banner-top">
     <div class="banner-icon">🕌</div>
     <div class="banner-text">
@@ -139,76 +138,65 @@
 
 <!-- PANDUAN iOS -->
 <div class="ios-guide" id="iGuide">
-  <button class="btn-x" onclick="tutupIOS()" style="top:16px;right:16px;position:absolute;" aria-label="Tutup">✕</button>
+  <button class="btn-x" onclick="tutupIOS()" style="top:16px;right:16px;position:absolute;">✕</button>
   <div class="ios-title">📱 Simpan ke Homescreen iPhone</div>
   <div class="ios-step"><div class="ios-num">1</div><div>Klik ikon <strong>Share ⬆️</strong> di bar bawah Safari</div></div>
   <div class="ios-step"><div class="ios-num">2</div><div>Skrol ke bawah → pilih <strong>"Add to Home Screen"</strong></div></div>
-  <div class="ios-step"><div class="ios-num">3</div><div>Klik <strong>"Add"</strong> — Ikon 🕌 akan muncul di homescreen!</div></div>
+  <div class="ios-step"><div class="ios-num">3</div><div>Klik <strong>"Add"</strong> — Ikon 🕌 akan muncul!</div></div>
   <button class="btn-ios-close" onclick="tutupIOS()">✓ Faham, Teruskan</button>
 </div>
 
-<div class="version">v4</div>
+<div class="version">v5</div>
 
 <script>
-const APP_URL='https://script.google.com/macros/s/AKfycbyUkQW99qgL8rOGwo8-Or4OM2rB6uIcQZl1aBjaHph7Gj2uwOWfoyXP5wuJDCQlPT2D/exec';
+const APP_URL='https://script.google.com/macros/s/AKfycbwHnw66nVouKIf6kBZvHuiIoLJh3xQ_mpfNLffHgvYfL9Z07UP_x0XtAV3rK5VQaCIp/exec';
 const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
 const isStandalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone;
 
-// Paksa unregister SW lama dan daftar SW baharu
+// Unregister SW lama & daftar baharu
 if('serviceWorker' in navigator){
-  // Unregister semua SW lama dulu
   navigator.serviceWorker.getRegistrations().then(regs=>{
     regs.forEach(r=>r.unregister());
   }).then(()=>{
-    // Daftar SW baharu
-    navigator.serviceWorker.register('./sw.js?v=4');
+    navigator.serviceWorker.register('./sw.js?v=5');
   });
 }
 
-// Jika dah install sebagai app — redirect terus
-if(isStandalone){ window.location.href=APP_URL; }
+// Jika dah install — redirect SEGERA
+if(isStandalone){ window.location.replace(APP_URL); }
 
-// Status teks
-setTimeout(()=>{ document.getElementById('sTxt').textContent='Membuka sistem kehadiran...'; },1000);
+// Animasi status
+setTimeout(()=>{document.getElementById('sTxt').textContent='Membuka Dewan Ulamak...';},800);
 
-// Auto redirect selepas 2 saat
-setTimeout(()=>{ window.location.href=APP_URL; },2000);
-
-// Butang manual jika redirect lambat
-setTimeout(()=>{
-  document.getElementById('btnM').style.display='inline-block';
-  document.getElementById('sTxt').textContent='Klik butang jika tidak redirect automatik';
-},4500);
+// Redirect JavaScript selepas 2 saat (backup kepada meta refresh)
+setTimeout(()=>{ window.location.replace(APP_URL); },2000);
 
 // ===== ANDROID INSTALL =====
 let deferredPrompt=null;
-let cdTimer=null;
-const CD_MAX=30; // 30 saat — kekal sampai user pilih
+const CD_MAX=30;
 let cdSisa=CD_MAX;
+let cdTimer=null;
 
 window.addEventListener('beforeinstallprompt',e=>{
   e.preventDefault();
   deferredPrompt=e;
-  setTimeout(()=>{ if(!isStandalone) mulakanBanner(); },3500);
+  // Tunjuk banner selepas 4 saat
+  setTimeout(()=>{if(!isStandalone) mulakanBanner();},4000);
 });
 
 function mulakanBanner(){
-  cdSisa=CD_MAX;
-  kemasCd();
+  cdSisa=CD_MAX; kemasCd();
   document.getElementById('iBanner').classList.add('show');
   document.getElementById('overlay').classList.add('show');
-  // Countdown 10 saat — TIDAK auto tutup, hanya tukar warna
   cdTimer=setInterval(()=>{
-    cdSisa--;
-    kemasCd();
+    cdSisa--;kemasCd();
     if(cdSisa<=0){
       clearInterval(cdTimer);
-      // TIDAK auto tutup — tukar teks sahaja
       const n=document.getElementById('cdN');
-      if(n) n.textContent='⏰';
-      const lbl=document.querySelectorAll('.cd-label');
-      if(lbl[0]) lbl[0].textContent='';
-      if(lbl[1]) lbl[1].textContent='Sila buat pilihan';
+      if(n)n.textContent='⏰';
+      const lb=document.querySelectorAll('.cd-label');
+      if(lb[0])lb[0].textContent='';
+      if(lb[1])lb[1].textContent='Sila buat pilihan';
     }
   },1000);
 }
@@ -216,14 +204,14 @@ function mulakanBanner(){
 function kemasCd(){
   const n=document.getElementById('cdN');
   const b=document.getElementById('cdB');
-  if(n) n.textContent=Math.max(0,cdSisa);
-  if(b) b.style.width=(Math.max(0,cdSisa)/CD_MAX*100)+'%';
+  if(n)n.textContent=Math.max(0,cdSisa);
+  if(b)b.style.width=(Math.max(0,cdSisa)/CD_MAX*100)+'%';
 }
 
 document.getElementById('btnP').addEventListener('click',async()=>{
   if(deferredPrompt){
     deferredPrompt.prompt();
-    const{outcome}=await deferredPrompt.userChoice;
+    await deferredPrompt.userChoice;
     deferredPrompt=null;
     tutupBanner();
   }
@@ -240,7 +228,7 @@ if(isIOS&&!isStandalone){
   setTimeout(()=>{
     document.getElementById('iGuide').classList.add('show');
     document.getElementById('overlay').classList.add('show');
-  },3500);
+  },4000);
 }
 
 function tutupIOS(){
@@ -248,7 +236,7 @@ function tutupIOS(){
   document.getElementById('overlay').classList.remove('show');
 }
 
-function tutupSemua(){ tutupBanner(); tutupIOS(); }
+function tutupSemua(){tutupBanner();tutupIOS();}
 </script>
 </body>
 </html>
