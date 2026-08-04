@@ -1,7 +1,7 @@
 // SERVICE WORKER v3 — Ijtimak Tarbawi Dewan Ulamak
 // Tukar versi ini setiap kali nak paksa browser ambil kod terbaru
 
-const CACHE_NAME = 'ijtimak-tarbawi-v4';
+const CACHE_NAME = 'ijtimak-tarbawi-v5';
 const ASSETS = ['./', './index.html', './manifest.json'];
 
 // Install — cache fail asas
