@@ -1,12 +1,12 @@
-// SERVICE WORKER v3 — Ijtimak Tarbawi Dewan Ulamak
+// SERVICE WORKER v9 — Dewan Ulamak PAS Kawasan Rompin
 // Tukar versi ini setiap kali nak paksa browser ambil kod terbaru
 
-const CACHE_NAME = 'ijtimak-tarbawi-v8';
+const CACHE_NAME = 'dupkr-v9';
 const ASSETS = ['./', './index.html', './manifest.json'];
 
 // Install — cache fail asas
 self.addEventListener('install', event => {
-  self.skipWaiting(); // Paksa SW baharu aktif serta-merta
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
   );
@@ -22,13 +22,12 @@ self.addEventListener('activate', event => {
           return caches.delete(key);
         }
       }))
-    ).then(() => self.clients.claim()) // Ambil alih semua tab serta-merta
+    ).then(() => self.clients.claim())
   );
 });
 
 // Fetch — Network first, JANGAN cache Apps Script
 self.addEventListener('fetch', event => {
-  // Jangan cache Apps Script sama sekali
   if (event.request.url.includes('script.google.com')) return;
 
   event.respondWith(
